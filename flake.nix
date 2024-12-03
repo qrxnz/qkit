@@ -32,10 +32,11 @@
 
           # wrapper
           pkgs.gum
+          pkgs.cargo
+
 
           # bins
           pkgs.curl
-          pkgs.cargo
         ];
 
         # Run this command, only after creating the virtual environment
