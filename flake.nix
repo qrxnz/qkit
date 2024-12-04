@@ -14,7 +14,7 @@
       pythonPackages = pkgs.python3Packages;
     in {
       devShells.default = pkgs.mkShell {
-        name = "sheesh";
+        name = "qkit";
         venvDir = "./.venv";
         buildInputs = [
           # A Python interpreter including the 'venv' module is required to bootstrap
