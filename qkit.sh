@@ -1,3 +1,5 @@
+#!/bin/env bash
+
 source ./lib.sh
 
 if [ ! -d "/tmp/qkit" ]; then
