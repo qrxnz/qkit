@@ -6,6 +6,6 @@ if [ ! -d "/tmp/qkit" ]; then
   mkdir -p /tmp/qkit
 fi
 
-run=$(gum choose "test" "subdomains" "revshells")
+run=$(gum choose "subdomains" "revshells")
 
 $run
