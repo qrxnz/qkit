@@ -1,59 +1,28 @@
 {
-  inputs = {
-    utils.url = "github:numtide/flake-utils";
-  };
-
-  outputs = {
-    self,
-    nixpkgs,
-    utils,
-    ...
-  }:
-    utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {inherit system;};
-      pythonPackages = pkgs.python3Packages;
-    in {
-      devShells.default = pkgs.mkShell {
-        name = "qkit";
-        venvDir = "./.venv";
-        buildInputs = [
-          # A Python interpreter including the 'venv' module is required to bootstrap
-          # the environment.
-          pythonPackages.python
-
-          # This executes some shell code to initialize a venv in $venvDir before
-          # dropping into the shell
-          pythonPackages.venvShellHook
-
-
-          #
-          # Normal packages
-          #
-
-          # wrapper
-          pkgs.gum
-          pkgs.cargo
-
-
-          # bins
-          pkgs.curl
+  description = "A best script!";
+  inputs.flake-utils.url = "github:numtide/flake-utils";
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        my-name = "my-script";
+        my-buildInputs = with pkgs; [
+          cowsay
+          ddate
+          gum
+          amass
         ];
-
-        # Run this command, only after creating the virtual environment
-        postVenvCreation = ''
-          unset SOURCE_DATE_EPOCH
-          pip install -r requirements.txt
-        '';
-
-        # Now we can execute any commands within the virtual environment.
-        # This is optional and can be left out to run pip manually.
-        postShellHook = ''
-          # allow pip to install wheels
-          unset SOURCE_DATE_EPOCH
-
-          # cargo bins
-          cargo install NtHiM
-        '';
-      };
-    });
+        my-script = (pkgs.writeScriptBin my-name (builtins.readFile ./qkit.sh)).overrideAttrs(old: {
+          buildCommand = "${old.buildCommand}\n patchShebangs $out";
+        });
+      in rec {
+        defaultPackage = packages.my-script;
+        packages.my-script = pkgs.symlinkJoin {
+          name = my-name;
+          paths = [ my-script ] ++ my-buildInputs;
+          buildInputs = [ pkgs.makeWrapper ];
+          postBuild = "wrapProgram $out/bin/${my-name} --prefix PATH : $out/bin";
+        };
+      }
+    );
 }
