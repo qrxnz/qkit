@@ -5,21 +5,21 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        my-name = "my-script";
+        my-name = "qkit";
         my-buildInputs = with pkgs; [
           cowsay
           ddate
           gum
           amass
         ];
-        my-script = (pkgs.writeScriptBin my-name (builtins.readFile ./qkit.sh)).overrideAttrs(old: {
+        qkit = (pkgs.writeScriptBin my-name (builtins.readFile ./qkit.sh)).overrideAttrs(old: {
           buildCommand = "${old.buildCommand}\n patchShebangs $out";
         });
       in rec {
-        defaultPackage = packages.my-script;
-        packages.my-script = pkgs.symlinkJoin {
+        defaultPackage = packages.qkit;
+        packages.qkit = pkgs.symlinkJoin {
           name = my-name;
-          paths = [ my-script ] ++ my-buildInputs;
+          paths = [ qkit ] ++ my-buildInputs;
           buildInputs = [ pkgs.makeWrapper ];
           postBuild = "wrapProgram $out/bin/${my-name} --prefix PATH : $out/bin";
         };
