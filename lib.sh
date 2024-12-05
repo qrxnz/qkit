@@ -4,14 +4,69 @@ test(){
   echo "test"
 }
 
-subtakeover(){
+# -----------------------------------------------------------------
+#
+#                             SUBDOMAINS
+#
+# -----------------------------------------------------------------
+
+subdomains(){
   DATE=$(date)
 
   TARGET=$(gum input --value "$TARGET" --placeholder "*.target.domain")
 
-  amass enum -passive -d "$TARGET" | tee "/tmp/qkit/${DATE}_amass.txt"
+  gum spin --spinner dot --title "amass goes brrrr" --  amass enum -passive -d "$TARGET" | tee "/tmp/qkit/${DATE}_amass.txt"
 
-  #grep -oE '([a-zA-Z0-9]+\.)*[a-zA-Z0-9]+\.[a-zA-Z]{2,}' amass.txt > domains.txt
+  grep -oE '([a-zA-Z0-9]+\.)*[a-zA-Z0-9]+\.[a-zA-Z]{2,}' "/tmp/qkit/${DATE}_amass.txt" > "/tmp/qkit/${DATE}_domains.txt"
 
-  #cat domains.txt | httprobe | tee realurls.txt
+  cat "/tmp/qkit/${DATE}_" | httprobe > realurls.txt
+}
+
+# -----------------------------------------------------------------
+#
+#                             REVSHELLS
+#
+# -----------------------------------------------------------------
+
+revshells(){
+  run=$(gum choose "sh" "py3" "pwsh" "php")
+
+  $run
+}
+
+sh(){
+  IP=$(gum input --value "$IP" --placeholder "Host IP")
+  PORT=$(gum input --value "$PORT" --placeholder "Port")
+
+  RSHELL=`cat ./revshells/shrev.sh | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  
+  gum pager "$RSHELL"
+}
+
+# TO FIX
+py3(){
+  IP=$(gum input --value "$IP" --placeholder "Host IP")
+  PORT=$(gum input --value "$PORT" --placeholder "Port")
+
+  RSHELL=`cat ./revshells/py3.py | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  
+  gum pager "$RSHELL"
+}
+
+pwsh(){
+  IP=$(gum input --value "$IP" --placeholder "Host IP")
+  PORT=$(gum input --value "$PORT" --placeholder "Port")
+
+  RSHELL=`cat ./revshells/pwsh.ps1 | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  
+  gum pager "$RSHELL"
+}
+
+php(){
+  IP=$(gum input --value "$IP" --placeholder "Host IP")
+  PORT=$(gum input --value "$PORT" --placeholder "Port")
+
+  RSHELL=`cat ./revshells/php.php | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  
+  gum pager "$RSHELL"
 }

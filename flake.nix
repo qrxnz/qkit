@@ -11,6 +11,7 @@
           ddate
           gum
           amass
+          rustscan
         ];
         qkit = (pkgs.writeScriptBin my-name (builtins.readFile ./qkit.sh)).overrideAttrs(old: {
           buildCommand = "${old.buildCommand}\n patchShebangs $out";
