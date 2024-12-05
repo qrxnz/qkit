@@ -40,7 +40,7 @@ sh(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/shrev.sh | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat ./revshells/sh.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
@@ -50,7 +50,7 @@ py3(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/py3.py | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat ./revshells/py3.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
@@ -59,7 +59,7 @@ pwsh(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/pwsh.ps1 | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat ./revshells/pwsh.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
@@ -68,7 +68,7 @@ php(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/php.php | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat ./revshells/php.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
