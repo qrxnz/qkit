@@ -6,6 +6,7 @@ cloudscraper==1.2.71
 colorama==0.4.6
 coloredlogs==15.0.1
 commonmark==0.9.1
+h8mail==2.5.6
 humanfriendly==10.0
 idna==3.10
 loguru==0.5.3
