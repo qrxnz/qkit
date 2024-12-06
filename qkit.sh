@@ -205,7 +205,7 @@ Binwalk(){
 
   gum pager < "/tmp/qkit/log/${DATE}_binwalk.txt"
 
-  gum confirm "Extract files?" && binwalk -e "$FILE"
+  gum confirm "Extract files?" && binwalk -e "$FILE" > /dev/null
 }
 
 # -----------------------------------------------------------------
