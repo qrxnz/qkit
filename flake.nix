@@ -7,11 +7,9 @@
         pkgs = import nixpkgs { inherit system; };
         my-name = "qkit";
         my-buildInputs = with pkgs; [
-          cowsay
           ddate
           gum
           amass
-          rustscan
         ];
         qkit = (pkgs.writeScriptBin my-name (builtins.readFile ./qkit.sh)).overrideAttrs(old: {
           buildCommand = "${old.buildCommand}\n patchShebangs $out";
