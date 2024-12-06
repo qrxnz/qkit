@@ -6,11 +6,7 @@
 #
 # -----------------------------------------------------------------
 
-subdomains(){
-  if [ ! -d "/tmp/qkit/log" ]; then
-    mkdir -p /tmp/qkit/log
-  fi
-
+Subdomains(){
   TARGET=$(gum input --value "$TARGET" --placeholder "*.target.domain")
 
   gum spin --spinner dot --title "amass goes brrrr" -- amass enum -passive -d "$TARGET" | tee "/tmp/qkit/log/${DATE}_amass.txt"
@@ -26,14 +22,14 @@ subdomains(){
 #
 # -----------------------------------------------------------------
 
-revshells(){
-  revshell=$(gum choose "sh" "php" "py" "py3")
+Revshells(){
+  revshell=$(gum choose "SH" "PHP" "PY" "PY3")
 
   $revshell
 }
 
 # sh/bash
-sh(){
+SH(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
@@ -43,7 +39,7 @@ sh(){
 }
 
 # php
-php(){
+PHP(){
 
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
@@ -162,7 +158,7 @@ EOF
 }
 
 # Python
-py(){
+PY(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
@@ -178,7 +174,7 @@ EOF
   gum pager < /tmp/qkit/reverse_shell.py
 }
 
-py3(){
+PY3(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
@@ -194,20 +190,38 @@ EOF
   gum pager < /tmp/qkit/reverse_shell.py
 }
 
+
+# -----------------------------------------------------------------
+#
+#                             FORENSICS
+#
+# -----------------------------------------------------------------jj
+
+Binwalk(){ 
+
+  FILE=$(gum file "$CWD")
+ 
+  binwalk "$FILE" > "/tmp/qkit/log/${DATE}_binwalk.txt"
+
+  gum pager < "/tmp/qkit/log/${DATE}_binwalk.txt"
+
+  gum confirm "Extract files?" && binwalk -e "$FILE"
+}
+
 # -----------------------------------------------------------------
 #
 #                             RUN
 #
 # -----------------------------------------------------------------
 
-if [ ! -d "/tmp/qkit" ]; then
-  mkdir -p /tmp/qkit
+if [ ! -d "/tmp/qkit/log" ]; then
+  mkdir -p /tmp/qkit/log
 fi
 
 CWD=$(pwd)
 
 DATE=$(date)
 
-run=$(gum choose "subdomains" "revshells")
+run=$(gum choose "Subdomains" "Revshells" "Binwalk")
 
 $run
