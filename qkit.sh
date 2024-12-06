@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-source ./lib.sh
+source lib.sh
 
 if [ ! -d "/tmp/qkit" ]; then
   mkdir -p /tmp/qkit
