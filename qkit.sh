@@ -7,15 +7,14 @@
 # -----------------------------------------------------------------
 
 subdomains(){
-  DATE=$(date)
 
   TARGET=$(gum input --value "$TARGET" --placeholder "*.target.domain")
 
-  gum spin --spinner dot --title "amass goes brrrr" --  amass enum -passive -d "$TARGET" | tee "/tmp/qkit/${DATE}_amass.txt"
+  gum spin --spinner dot --title "amass goes brrrr" -- amass enum -passive -d "$TARGET" | tee "/tmp/qkit/${DATE}_amass.txt"
 
   grep -oE '([a-zA-Z0-9]+\.)*[a-zA-Z0-9]+\.[a-zA-Z]{2,}' "/tmp/qkit/${DATE}_amass.txt" > "/tmp/qkit/${DATE}_domains.txt"
 
-  cat "/tmp/qkit/${DATE}_" | httprobe > realurls.txt
+  cat "/tmp/qkit/${DATE}_domains.txt" | httprobe > "${DATE}_realurls.txt"
 }
 
 # -----------------------------------------------------------------
@@ -34,7 +33,7 @@ sh(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/sh.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat "${CWD}"/revshells/sh.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
@@ -44,7 +43,7 @@ py3(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/py3.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat "${CWD}"/revshells/py3.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
@@ -53,7 +52,7 @@ pwsh(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/pwsh.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat "${CWD}"/revshells/pwsh.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
@@ -62,7 +61,7 @@ php(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
   PORT=$(gum input --value "$PORT" --placeholder "Port")
 
-  RSHELL=`cat ./revshells/php.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
+  RSHELL=`cat "${CWD}"/revshells/php.txt | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g`
   
   gum pager "$RSHELL"
 }
@@ -70,6 +69,10 @@ php(){
 if [ ! -d "/tmp/qkit" ]; then
   mkdir -p /tmp/qkit
 fi
+
+CWD=$(pwd)
+
+DATE=$(date)
 
 run=$(gum choose "subdomains" "revshells")
 
