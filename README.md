@@ -1,14 +1,30 @@
 # qkit
 
-## ⚒️ Installation
+## 👾 Features
+
+### Subdomains
+ \-
+
+### Revshells
+
+ \-
+
+### Binwalk
+
+`Binwalk` has gained automation that allows you to first see the files and make a decision about extraction after viewing them:
+
+
+## ⚒️  Installation
 
 ### Try it without installing
+
 ```sh
 nix run github:qrxnz/qkit
 ```
 ### Installation
 
 Add input in your flake like:  
+
 ```nix
 {
  inputs = {
