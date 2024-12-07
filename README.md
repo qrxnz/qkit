@@ -1,5 +1,8 @@
 # qkit
 
+> \[!WARNING\]
+> `qkit` is constantly being developed, it has many changes and has imperfections :)
+
 ## 👾 Features
 
 ### Subdomains
