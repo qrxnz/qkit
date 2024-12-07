@@ -200,12 +200,13 @@ EOF
 Binwalk(){ 
 
   FILE=$(gum file "$CWD")
- 
-  binwalk "$FILE" > "/tmp/qkit/log/${DATE}_binwalk.txt"
 
-  gum pager < "/tmp/qkit/log/${DATE}_binwalk.txt"
+  if [ -f "$FILE" ]; then
+    binwalk "$FILE" > "/tmp/qkit/log/${DATE}_binwalk.txt"
 
-  gum confirm "Extract files?" && binwalk -e "$FILE" > /dev/null
+    gum pager < "/tmp/qkit/log/${DATE}_binwalk.txt"
+    gum confirm "Extract files?" && binwalk -e "$FILE" > /dev/null
+  fi
 }
 
 # -----------------------------------------------------------------
