@@ -14,7 +14,7 @@
 
 ### Binwalk
 
-`Binwalk` has gained automation that allows you to first see the files and make a decision about extraction after viewing them:
+`binwalk` has gained automation that allows you to first see the files and make a decision about extraction after viewing them:
 
 
 ## ⚒️  Installation
