@@ -9,7 +9,7 @@
 Subdomains(){
   TARGET=$(gum input --value "$TARGET" --placeholder "*.target.domain")
 
-  gum spin --spinner dot --title "amass goes brrrr" -- amass enum -passive -d "$TARGET" | tee "/tmp/qkit/log/${DATE}_amass.txt"
+  gum spin --spinner dot --title "amass goes brrrr" -- amass enum -passive -d "$TARGET" > "/tmp/qkit/log/${DATE}_amass.txt"
 
   grep -oE '([a-zA-Z0-9]+\.)*[a-zA-Z0-9]+\.[a-zA-Z]{2,}' "/tmp/qkit/${DATE}_amass.txt" > "/tmp/qkit/log/${DATE}_domains.txt"
 
